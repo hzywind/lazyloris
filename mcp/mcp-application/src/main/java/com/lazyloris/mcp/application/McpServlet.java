@@ -24,7 +24,7 @@ public class McpServlet extends HttpServlet {
 		String timestamp = req.getParameter("timestamp");
 		String nonce = req.getParameter("nonce");
 		String echostr = req.getParameter("echostr");
-		
+
 		System.out.println("============================");
 		System.out.println("signature:" + signature);
 		System.out.println("timestamp:" + timestamp);
@@ -36,24 +36,22 @@ public class McpServlet extends HttpServlet {
 		list.add(timestamp);
 		list.add(nonce);
 
-		
-
 		String digested;
 		try {
 			digested = digest(list);
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
-		
+
 		if (signature.equals(digested)) {
 			resp.getWriter().write(echostr);
 		}
 	}
 
 	private static String digest(List<String> list) throws Exception {
-		
+
 		Collections.sort(list);
-		
+
 		StringBuilder builder = new StringBuilder();
 
 		for (String str : list) {
@@ -67,15 +65,31 @@ public class McpServlet extends HttpServlet {
 			throw new ServletException(e);
 		}
 		digest.update(builder.toString().getBytes("UTF-8"));
-		String digested = new String(digest.digest(), "UTF-8");
+		String digested = convertToHex(digest.digest());
 		return digested;
 	}
-	
+
+	private static String convertToHex(byte[] data) {
+		StringBuffer buf = new StringBuffer();
+		for (int i = 0; i < data.length; i++) {
+			int halfbyte = (data[i] >>> 4) & 0x0F;
+			int two_halfs = 0;
+			do {
+				if ((0 <= halfbyte) && (halfbyte <= 9))
+					buf.append((char) ('0' + halfbyte));
+				else
+					buf.append((char) ('a' + (halfbyte - 10)));
+				halfbyte = data[i] & 0x0F;
+			} while (two_halfs++ < 1);
+		}
+		return buf.toString();
+	}
+
 	public static void main(String[] args) throws Exception {
 		List<String> list = new ArrayList<String>();
-		list.add("ccccccc");
-		list.add("aaaaaaa");
-		list.add("bbbbbbb");
+		list.add(TOKEN);
+		list.add("1376317328");
+		list.add("1376553727");
 		System.out.println(digest(list));
 	}
 
