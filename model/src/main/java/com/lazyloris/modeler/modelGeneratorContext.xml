@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-init-method="init">
+
+	<bean name="xsltModelParser" abstract="true"
+		class="com.lazyloris.modeler.impl.XsltModelParser">
+		<property name="xsls">
+			<map>
+				<entry key="http://www.eclipse.org/uml2/3.0.0/UML">
+					<value>classpath:com/lazyloris/modeler/impl/eclipse_uml2.xsl</value>
+				</entry>
+				<entry key="http://schema.omg.org/spec/XMI/2.1">
+					<value>classpath:com/lazyloris/modeler/impl/magicdraw_16.6.xsl</value>
+				</entry>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="modelParser" class="com.lazyloris.modeler.impl.ModelParserImpl"
+		parent="xsltModelParser" />
+
+	<bean name="modelAcceptor" class="com.lazyloris.modeler.impl.ModelAcceptorImpl">
+		<property name="parser" ref="modelParser" />
+	</bean>
+
+	<bean name="outputAdaptor" abstract="true">
+		<property name="indent" value="    " />
+		<property name="debug" value="true" />
+	</bean>
+
+	<bean name="jpaModelVisitor" class="com.lazyloris.modeler.impl.ModelVisitorImpl">
+		<property name="visitors">
+			<list>
+				<bean class="com.lazyloris.modeler.impl.EnumVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/enum.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.InterfaceVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/interface.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.EntityVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/entity.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.PersistenceXmlVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/persistence.xml.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.MetamodelVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/metamodel.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.RepositoryInterfaceVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/repositoryInterface.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.RepositoryImplementationVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/repositoryImplementation.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.NPVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/np.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.NPUtilsVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/npUtils.java.ftl" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="hibernateModelVisitor" class="com.lazyloris.modeler.impl.ModelVisitorImpl">
+		<property name="visitors">
+			<list>
+				<bean class="com.lazyloris.modeler.impl.HbmVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/hbm.xml.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.HibernateCfgVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/hibernate.cfg.xml.ftl" />
+					<property name="hibernateProperties">
+						<map>
+							<entry key="show_sql"><value>true</value></entry>
+							<entry key="format_sql"><value>true</value></entry>
+							<entry key="use_sql_comments"><value>true</value></entry>
+						</map>
+					</property>
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.HibernateImplVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/hibernateImpl.java.ftl" />
+				</bean>
+				<bean class="com.lazyloris.modeler.impl.HibernateTypesHbmVisitor">
+					<property name="templateName" value="com/lazyloris/modeler/impl/types.hbm.xml.ftl" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean name="generator" class="com.lazyloris.modeler.impl.GeneratorImpl">
+		<property name="visitors">
+			<map>
+				<entry key="JPA" value-ref="jpaModelVisitor"/>
+				<entry key="HIBERNATE" value-ref="hibernateModelVisitor"/>
+			</map>
+		</property>
+		<property name="acceptor" ref="modelAcceptor" />
+	</bean>
+
+</beans>

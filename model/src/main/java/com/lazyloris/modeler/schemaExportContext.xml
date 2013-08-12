@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+	default-init-method="init">
+	
+	<bean name="exporter" class="com.lazyloris.modeler.SchemaExporter">
+		<property name="exporters">
+			<list>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="MYSQL"/>
+					<property name="create" value="true"/>
+					<property name="drop" value="false"/>
+					<property name="outputFile"><value>sql/mysql/schema-create.sql</value></property>
+				</bean>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="MYSQL"/>
+					<property name="create" value="false"/>
+					<property name="drop" value="true"/>
+					<property name="outputFile"><value>sql/mysql/schema-drop.sql</value></property>
+				</bean>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="MSSQL"/>
+					<property name="create" value="true"/>
+					<property name="drop" value="false"/>
+					<property name="outputFile"><value>sql/mssql/schema-create.sql</value></property>
+				</bean>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="MSSQL"/>
+					<property name="create" value="false"/>
+					<property name="drop" value="true"/>
+					<property name="outputFile"><value>sql/mssql/schema-drop.sql</value></property>
+				</bean>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="ORACLE"/>
+					<property name="create" value="true"/>
+					<property name="drop" value="false"/>
+					<property name="outputFile"><value>sql/oracle/schema-create.sql</value></property>
+				</bean>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="ORACLE"/>
+					<property name="create" value="false"/>
+					<property name="drop" value="true"/>
+					<property name="outputFile"><value>sql/oracle/schema-drop.sql</value></property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean name="abstractSchemaExport" abstract="true" class="com.lazyloris.modeler.impl.HibernateSchemaExport">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+</beans>

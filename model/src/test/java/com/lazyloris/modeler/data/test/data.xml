@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects>
+	<object type="Shop" id="shop.1">
+		<property name="name">shop</property>
+		<property name="created">2010-04-01 12:34:23.345</property>
+		<property name="allDays">true</property>
+		<property name="state">OPEN</property>
+		<collection name="categories">
+			<item ref="cate.1"/>
+		</collection>
+		<meta name="meta">
+			<entry key="meta.key.1">value1</entry>
+			<entry key="meta.key.2">value2</entry>
+		</meta>
+	</object>
+	
+	<object type="Category" id="cate.1">
+		<property name="name">c1</property>
+	</object>
+	
+	<object type="Category" id="cate.2">
+		<property name="name">c2</property>
+		<property name="parent" ref="cate.1"/>
+	</object>
+	
+</objects>
