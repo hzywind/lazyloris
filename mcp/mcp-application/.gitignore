@@ -3,3 +3,4 @@ bin
 .classpath
 target
 derby.log
+src/main/java/com/lazyloris/mcp/application/model
