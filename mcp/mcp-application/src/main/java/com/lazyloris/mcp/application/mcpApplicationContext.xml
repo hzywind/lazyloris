@@ -1,9 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
 	default-init-method="init">
 
-	
+	<bean name="dbInitializer" class="com.lazyloris.mcp.application.util.DerbyInitializer"
+		init-method="init">
+		<property name="dbLocation" value="#{systemProperties['catalina.base']}/webapps/mcp/WEB-INF/data/derby" />
+	</bean>
+
+	<bean name="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="org.apache.derby.jdbc.EmbeddedDriver" />
+		<property name="url" value="jdbc:derby:#{systemProperties['catalina.base']}/webapps/mcp/WEB-INF/data/derby" />
+	</bean>
+
+	<bean name="entityManagerFactory" depends-on="dbInitializer"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" lazy-init="false"
+		p:data-source-ref="dataSource"
+		p:persistence-xml-location="classpath:com/lazyloris/mcp/application/model/entity/persistence.xml">
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="showSql" value="true" />
+				<property name="database" value="DERBY" />
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<value>
+				hibernate.current_session_context_class=thread
+				hibernate.use_sql_comments=true
+				hibernate.format_sql=true
+				hibernate.hbm2ddl.auto=create-drop
+			</value>
+		</property>
+	</bean>
+
+	<bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<bean name="repository"
+		class="com.lazyloris.mcp.application.model.repository.impl.RepositoryImpl">
+		<property name="entityManager">
+			<bean class="org.springframework.orm.jpa.support.SharedEntityManagerBean">
+				<property name="entityManagerFactory" ref="entityManagerFactory" />
+			</bean>
+		</property>
+	</bean>
 
 </beans>

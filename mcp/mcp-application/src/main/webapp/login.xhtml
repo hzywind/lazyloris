@@ -4,6 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       >
 <f:view>
   <head>
@@ -11,6 +12,8 @@
     <title>Login Page</title>
   </head>
   <body>
+    <ui:composition template="templates/common.xhtml">
+    <ui:define name="content">
       <h1>Please Login</h1><br/>
       <h:form>
           <h:panelGrid columns="2">
@@ -25,6 +28,8 @@
                    action="#{loginBean.authenticate}"/>
           <h:outputText value="#{loginBean.error}"/>
       </h:form>
+    </ui:define>
+    </ui:composition>
   </body>
 </f:view>
 </html>
