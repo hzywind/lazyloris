@@ -44,8 +44,8 @@
 							<mainClass>com.lazyloris.modeler.Main
 							</mainClass>
 							<arguments>
-								<argument>src/test/java/STM.mdxml</argument>
-								<argument>src/test/java</argument>
+								<argument>${project.basedir}/src/test/java/STM.mdxml</argument>
+								<argument>${project.basedir}/src/test/java</argument>
 								<argument>JPA</argument>
 							</arguments>
 						</configuration>
