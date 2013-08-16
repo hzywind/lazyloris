@@ -43,6 +43,18 @@
 					<property name="drop" value="true"/>
 					<property name="outputFile"><value>sql/oracle/schema-drop.sql</value></property>
 				</bean>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="DERBY"/>
+					<property name="create" value="true"/>
+					<property name="drop" value="false"/>
+					<property name="outputFile"><value>sql/derby/schema-create.sql</value></property>
+				</bean>
+				<bean parent="abstractSchemaExport">
+					<property name="database" value="DERBY"/>
+					<property name="create" value="false"/>
+					<property name="drop" value="true"/>
+					<property name="outputFile"><value>sql/derby/schema-drop.sql</value></property>
+				</bean>
 			</list>
 		</property>
 	</bean>

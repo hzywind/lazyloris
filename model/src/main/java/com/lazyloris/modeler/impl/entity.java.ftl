@@ -75,6 +75,11 @@ public class ${interface.name}Entity extends AbstractEntity<${interface.name}, L
     private ${association.interface.name} ${utils.getAssociationName(association)};
 
         <#else>
+    /**Unidirectional many to one**/
+    @ManyToOne(targetEntity = ${association.interface.name}Entity.class, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinColumn(name = "${utils.getAssociationColumnName(association, interface)}")
+    private ${association.interface.name} ${utils.getAssociationName(association)};
+    
         </#if>
     </#if>
 </#list>
@@ -155,6 +160,16 @@ public class ${interface.name}Entity extends AbstractEntity<${interface.name}, L
         </#if>
     <#elseif association.type = "SINGLE" && association.end??>
     @Override
+    public ${association.interface.name} get${utils.getAssociationName(association)?cap_first}() {
+        return this.${utils.getAssociationName(association)};
+    }
+    
+    @Override
+    public void set${utils.getAssociationName(association)?cap_first}(${association.interface.name} ${utils.getAssociationName(association)}) {
+        this.${utils.getAssociationName(association)} = ${utils.getAssociationName(association)};
+    }
+    <#else>
+    /**Unidirectional many to one**/
     public ${association.interface.name} get${utils.getAssociationName(association)?cap_first}() {
         return this.${utils.getAssociationName(association)};
     }

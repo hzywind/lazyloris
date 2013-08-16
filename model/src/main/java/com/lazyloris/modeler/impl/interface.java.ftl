@@ -53,6 +53,11 @@ public interface ${interface.name} extends Entity<${interface.name}, Long> {
     ${association.interface.name} get${utils.getAssociationName(association)?cap_first}();
     
     void set${utils.getAssociationName(association)?cap_first}(${association.interface.name} ${utils.getAssociationName(association)});
+    <#else>
+    /**Unidirectional many to one**/
+    ${association.interface.name} get${utils.getAssociationName(association)?cap_first}();
+    
+    void set${utils.getAssociationName(association)?cap_first}(${association.interface.name} ${utils.getAssociationName(association)});
     </#if>
  </#list>
 }

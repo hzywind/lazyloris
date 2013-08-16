@@ -35,7 +35,7 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src/test/java/com/lazyloris/mcp/application/model</directory>
+							<directory>src/main/java/com/lazyloris/mcp/application/model</directory>
 							<includes>
 								<include>**/*</include>
 							</includes>
@@ -60,6 +60,36 @@
 								<argument>${project.basedir}/src/main/resources/mcp.mdxml</argument>
 								<argument>${project.basedir}/src/main/java</argument>
 								<argument>JPA</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-model-hibernate</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>com.lazyloris.modeler.Main</mainClass>
+							<arguments>
+								<argument>${project.basedir}/src/main/resources/mcp.mdxml</argument>
+								<argument>${project.basedir}/src/main/java</argument>
+								<argument>HIBERNATE</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>generate-schemas</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>com.lazyloris.modeler.SchemaExportMain
+							</mainClass>
+							<arguments>
+								<argument>${project.basedir}/src/main/java/com/lazyloris/mcp/application/model/hibernate/hibernate.cfg.xml</argument>
+								<argument>${project.basedir}/target/classes</argument>
 							</arguments>
 						</configuration>
 					</execution>

@@ -41,6 +41,8 @@ public class ${interface.name}NP implements NP<${interface.name}> {
     private ${association.interface.name}NP ${utils.getAssociationName(association)};
 
         <#else>
+    /**Unidirectional many to one**/
+    private ${association.interface.name}NP ${utils.getAssociationName(association)};
         </#if>
     </#if>
 </#list>
@@ -96,6 +98,17 @@ public class ${interface.name}NP implements NP<${interface.name}> {
     public void set${utils.getAssociationName(association)?cap_first}(${association.interface.name}NP ${utils.getAssociationName(association)}) {
         this.${utils.getAssociationName(association)} = ${utils.getAssociationName(association)};
     }
+    
+    <#else>
+    /**Unidirectional many to one**/
+    public ${association.interface.name}NP get${utils.getAssociationName(association)?cap_first}() {
+        return this.${utils.getAssociationName(association)};
+    }
+    
+    public void set${utils.getAssociationName(association)?cap_first}(${association.interface.name}NP ${utils.getAssociationName(association)}) {
+        this.${utils.getAssociationName(association)} = ${utils.getAssociationName(association)};
+    }
+    
     </#if>
 
 </#list>

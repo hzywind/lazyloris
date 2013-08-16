@@ -32,6 +32,9 @@ public class ${interface.name}Entity_ <#if interface.parent??>extends ${interfac
     public static volatile ListAttribute<${interface.name}Entity, ${association.interface.name}Entity> ${utils.getAssociationName(association)};
     <#elseif association.type = "SINGLE" && association.end??>
     public static volatile SingularAttribute<${interface.name}Entity, ${association.interface.name}Entity> ${utils.getAssociationName(association)};
+    <#else>
+    /**Unidirectional many to one**/
+    public static volatile SingularAttribute<${interface.name}Entity, ${association.interface.name}Entity> ${utils.getAssociationName(association)};
     </#if>
  </#list>
 }

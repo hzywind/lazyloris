@@ -34,9 +34,11 @@
 		</#if>
 	<#elseif association.type = "SINGLE">
 		<#if association.end?? && (association.end.type = "MANY" || association.end.type = "COMPOSITE")>
-		<!-- many-to-one -->
+		<!-- bidirectional many-to-one -->
 		<many-to-one name="${utils.getAssociationName(association)}" column="${utils.getAssociationColumnName(association, interface)}" class="${association.interface.package}.hibernate.${association.interface.name}Impl" />
 		<#else>
+		<!-- unidirectional many-to-one -->
+		<many-to-one name="${utils.getAssociationName(association)}" column="${utils.getAssociationColumnName(association, interface)}" class="${association.interface.package}.hibernate.${association.interface.name}Impl" />
 		</#if>
 	</#if>
 </#list>

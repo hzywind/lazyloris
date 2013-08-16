@@ -94,6 +94,8 @@ public class HibernateSchemaExport implements SchemaExport {
         case ORACLE:
             dbDialet = "org.hibernate.dialect.OracleDialect";
             break;
+        case DERBY:
+        	dbDialet = "org.hibernate.dialect.DerbyDialect";
         }
     }
 

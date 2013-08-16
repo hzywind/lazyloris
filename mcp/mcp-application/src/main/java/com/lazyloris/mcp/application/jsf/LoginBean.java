@@ -1,17 +1,20 @@
 package com.lazyloris.mcp.application.jsf;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import com.lazyloris.mcp.application.model.repository.Repository;
+
 @Component
-@ManagedBean
-@SessionScoped
+@Scope("session")
 public class LoginBean {
 	private String name;
 	private String password;
 	private String error = null;
+	
+	@Autowired
+	private Repository repository;
 
 	public LoginBean() {
 	}
@@ -51,7 +54,7 @@ public class LoginBean {
 			return null;
 		} else {
 			setError(null);
-			return "authenticated";
+			return "welcome";
 		}
 	}
 }

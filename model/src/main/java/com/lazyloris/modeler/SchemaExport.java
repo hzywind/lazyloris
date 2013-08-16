@@ -10,7 +10,7 @@ package com.lazyloris.modeler;
 public interface SchemaExport {
     
     public static enum Database {
-        MYSQL, MSSQL, ORACLE
+        MYSQL, MSSQL, ORACLE, DERBY
     }
 
     void setOutputDirectory(String outputDir);
