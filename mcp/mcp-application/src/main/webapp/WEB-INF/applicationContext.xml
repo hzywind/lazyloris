@@ -6,8 +6,6 @@
 	http://www.springframework.org/schema/context/spring-context-3.1.xsd"
 	default-init-method="init">
 
-	<context:component-scan base-package="com.lazyloris.mcp.application.jsf" />
-	
 	<import resource="classpath:com/lazyloris/mcp/application/mcpApplicationContext.xml"/>
 
 </beans>

@@ -32,6 +32,7 @@ public class DerbyInitializer {
             }
         }
         log.info("Creating database ... ");
+        log.debug("Database location - " + dbLocation);
         try {
             Class.forName(driver).newInstance();
             DriverManager.getConnection(

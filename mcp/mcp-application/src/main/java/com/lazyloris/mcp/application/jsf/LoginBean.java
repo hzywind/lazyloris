@@ -1,5 +1,7 @@
 package com.lazyloris.mcp.application.jsf;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -8,7 +10,10 @@ import com.lazyloris.mcp.application.model.repository.Repository;
 
 @Component
 @Scope("session")
-public class LoginBean {
+public class LoginBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	
 	private String name;
 	private String password;
 	private String error = null;
